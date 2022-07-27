@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/app/Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html:cached
+    ports:
+      - 8333:80
+    command:
+      - /bin/bash
+      - -c
+      - |
+        [ -d vendor/bin ] || composer install
+        [ -f .env ] || { cp .env.example .env; php artisan key:generate --ansi; php artisan migrate:fresh --seed; }
+        apache2-foreground
+  node:
+    image: node:15.6.0-buster
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    command:
+      - /bin/bash
+      - -c
+      - |
+        [ -d node_modules ] || yarn
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - 8306:3306
+    volumes:
+      - db-volume:/var/lib/mysql:cached
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+volumes:
+  db-volume:
