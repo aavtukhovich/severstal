@@ -20,21 +20,23 @@
             }
         </style>
     </head>
-    <body class=" flex flex-col h-screen">
-            <header class="my-5 min-h-96 bg-gray-300">
+    <body class="grid grid-cols-3 gap-4  auto-rows-max">
+        <header class="col-span-3 min-h-[150px] bg-gray-300">
               <!-- Header content -->
               <h3>The test task for severstal company. Product items.</h3>
             </header>
 
-
-            <main class="col-span-8 max-w-2xl mx-auto ">
+            <nav class=" bg-gray-100">
+                navigation
+            </nav>
+            <main class="col-span-2 max-w mx-auto ">
               <!-- Main content -->
               <ul class="divide-y">
                 @foreach ($products as $product)
                 <li class="p-3 rounded-xl my-5 bg-gray-500">
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
-                            <img class="w-10 h-10 rounded-full" src="{{$product->file_path}}" alt="Neil image">
+                            <img class="w-[50px] h-[50px] rounded-full" src="{{$product->file_path}}" alt="Neil image">
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -57,7 +59,7 @@
 
 
 
-            <footer class="row-auto col-span-9 bg-gray-300">
+            <footer class="col-span-3  min-h-[100px]  flex justify-center bg-gray-300">
               <!-- Footer content -->
               &copy; 2022. Avtukhovich Andrei.
             </footer>
