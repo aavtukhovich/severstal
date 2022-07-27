@@ -1,4 +1,4 @@
-FROM php:8.0-apache-buster
+FROM php:8.1-apache-buster
 
 #
 # Packages
@@ -25,6 +25,7 @@ RUN docker-php-ext-configure zip; \
     docker-php-ext-install -j "$(nproc)" gd intl mysqli opcache pdo_mysql zip exif bcmath
 
 RUN mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+RUN echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 
 #
 # Composer
