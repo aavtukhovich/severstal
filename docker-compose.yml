@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: .docker/app/Dockerfile
     depends_on:
-      - db
+      - mysql
     volumes:
       - .:/var/www/html:cached
     ports:
@@ -16,7 +16,6 @@ services:
       - -c
       - |
         [ -d vendor/bin ] || composer install
-        [ -f .env ] || { cp .env.example .env; php artisan key:generate --ansi; php artisan migrate:fresh --seed; }
         apache2-foreground
   node:
     image: node:15.6.0-buster
